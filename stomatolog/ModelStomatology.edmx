@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище stomatologyModel1" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "stomatology.dbo.Appointment" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="ID_doc" />
+            <PropertyRef Name="Dates" />
+            <PropertyRef Name="Times" />
+            <PropertyRef Name="ID_pat" />
+          </Key>
+          <Property Name="ID_doc" Type="int" Nullable="false" />
+          <Property Name="Dates" Type="date" Nullable="false" />
+          <Property Name="Times" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ID_pat" Type="int" Nullable="false" />
+          <Property Name="Available" Type="smallint" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "stomatology.dbo.Authorizations" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Authorizations">
+          <Key>
+            <PropertyRef Name="Login" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="ID_doc" />
+          </Key>
+          <Property Name="ID_doc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Birthdate" Type="date" Nullable="false" />
+          <Property Name="Experience" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6013: Первичный ключ в таблице или представлении "stomatology.dbo.Doctors_Servises" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
+        <EntityType Name="Doctors_Servises">
+          <Property Name="Numb_serv" Type="int" />
+          <Property Name="ID_doc" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="ID_pat" />
+          </Key>
+          <Property Name="ID_pat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Birthdate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Servises">
+          <Key>
+            <PropertyRef Name="Numb_serv" />
+          </Key>
+          <Property Name="Numb_serv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_serv" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Appointme__Avail__45F365D3">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="ID_doc" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="ID_doc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__ID_pa__46E78A0C">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID_pat" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="ID_pat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Ошибки, обнаруженные при создании:
+ошибка 6004: Невозможно найти таблицу "stomatology.dbo.Doctors_Servises", на которую ссылается связь.
+        <Association Name="FK__Doctors_S__ID_do__440B1D61" />-->
+        <!--Ошибки, обнаруженные при создании:
+ошибка 6004: Невозможно найти таблицу "stomatology.dbo.Doctors_Servises", на которую ссылается связь.
+        <Association Name="FK__Doctors_S__Numb___4316F928" />-->
+        <EntityContainer Name="Хранилище stomatologyModel1Container">
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servises" EntityType="Self.Servises" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Appointment].[ID_doc] AS [ID_doc], 
+    [Appointment].[Dates] AS [Dates], 
+    [Appointment].[Times] AS [Times], 
+    [Appointment].[ID_pat] AS [ID_pat], 
+    [Appointment].[Available] AS [Available]
+    FROM [dbo].[Appointment] AS [Appointment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Authorizations" EntityType="Self.Authorizations" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Authorizations].[Login] AS [Login], 
+    [Authorizations].[Password] AS [Password], 
+    [Authorizations].[Email] AS [Email]
+    FROM [dbo].[Authorizations] AS [Authorizations]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Appointme__Avail__45F365D3" Association="Self.FK__Appointme__Avail__45F365D3">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__ID_pa__46E78A0C" Association="Self.FK__Appointme__ID_pa__46E78A0C">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="stomatologyModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="ID_doc" />
+          </Key>
+          <Property Name="ID_doc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Experience" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK__Appointme__Avail__45F365D3" FromRole="Doctors" ToRole="Appointment" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="ID_pat" />
+          </Key>
+          <Property Name="ID_pat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK__Appointme__ID_pa__46E78A0C" FromRole="Patients" ToRole="Appointment" />
+        </EntityType>
+        <EntityType Name="Servises">
+          <Key>
+            <PropertyRef Name="Numb_serv" />
+          </Key>
+          <Property Name="Numb_serv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_serv" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="ID_doc" />
+            <PropertyRef Name="Dates" />
+            <PropertyRef Name="Times" />
+            <PropertyRef Name="ID_pat" />
+          </Key>
+          <Property Name="ID_doc" Type="Int32" Nullable="false" />
+          <Property Name="Dates" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Times" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="ID_pat" Type="Int32" Nullable="false" />
+          <Property Name="Available" Type="Int16" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK__Appointme__Avail__45F365D3" FromRole="Appointment" ToRole="Doctors" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK__Appointme__ID_pa__46E78A0C" FromRole="Appointment" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="Authorizations">
+          <Key>
+            <PropertyRef Name="Login" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Appointme__Avail__45F365D3">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="ID_doc" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="ID_doc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__ID_pa__46E78A0C">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID_pat" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="ID_pat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="stomatologyEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" />
+          <EntitySet Name="Servises" EntityType="Self.Servises" />
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" />
+          <EntitySet Name="Authorizations" EntityType="Self.Authorizations" />
+          <AssociationSet Name="FK__Appointme__Avail__45F365D3" Association="Self.FK__Appointme__Avail__45F365D3">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__ID_pa__46E78A0C" Association="Self.FK__Appointme__ID_pa__46E78A0C">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище stomatologyModel1Container" CdmEntityContainer="stomatologyEntities2">
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="stomatologyModel1.Doctors">
+              <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="ID_doc" ColumnName="ID_doc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="stomatologyModel1.Patients">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="ID_pat" ColumnName="ID_pat" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servises">
+            <EntityTypeMapping TypeName="stomatologyModel1.Servises">
+              <MappingFragment StoreEntitySet="Servises">
+                <ScalarProperty Name="Numb_serv" ColumnName="Numb_serv" />
+                <ScalarProperty Name="Name_serv" ColumnName="Name_serv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Appointment">
+            <EntityTypeMapping TypeName="stomatologyModel1.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="ID_doc" ColumnName="ID_doc" />
+                <ScalarProperty Name="Dates" ColumnName="Dates" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="ID_pat" ColumnName="ID_pat" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Authorizations">
+            <EntityTypeMapping TypeName="stomatologyModel1.Authorizations">
+              <MappingFragment StoreEntitySet="Authorizations">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e502b80fba343ea925531db6c255c77" Name="Diagram1">
+        <EntityTypeShape EntityType="stomatologyModel.Doctors" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="stomatologyModel.Patients" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="stomatologyModel.Servises" Width="2" PointX="5.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="stomatologyModel.Appointment" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="stomatologyModel.Authorizations" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="stomatologyModel.FK__Appointme__Avail__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="stomatologyModel.FK__Appointme__ID_pa__46E78A0C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
